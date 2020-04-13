@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <title>かんじをおぼえる</title>
+    <style>
+     * {
+       margin: 0;
+       padding: 0;
+       box-sizing: border-box;
+       background-color: transparent;
+       border-style: none;
+     }
+     html, body {
+       height: 100%;
+     }
+     .container {
+       position: absolute;
+       top: 0px;
+       right: 0px;
+       bottom: 0px;
+       left: 0px;
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+       background-image: url("image/007.png");
+       background-color:rgba(255, 255, 255, 0.3);
+       background-blend-mode:lighten;
+       background-size: cover;
+       background-attachment: fixed;
+       background-position: center center;
+     }
+    .modal{
+      position: fixed;
+      left: 10px;
+      top: 10px;
+      z-index: 100;
+    }
+    #options {
+        display: flex;
+        top: 200px;
+        position: fixed;
+    }
+    .button {
+        font-size: 30px;
+        margin: 16px;
+        border: 1px solid rgba(241, 27, 27, 0.7);
+        border-radius: 4px;
+        padding: 8px 16px;
+        background: rgba(221, 16, 61, 0.9);
+        color: white;
+    }
+    .button:hover {
+        opacity: 0.8;
+        cursor: pointer;
+    }
+    #question {
+      font-size: 40px;
+      position: fixed;
+      top: 100px;
+      text-shadow: 0 0 10px rgb(255, 255, 255);;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="modal">
+        <button type="button" onclick="history.back()">
+          <img src="image/003.png" alt="戻る" width="50" height="60"/>
+        </button>
+     </div>  
+    <div class="container">
+      <div id="question"></div>
+      <div id="options"></div>
+      <div id="kaisetu"></div>
+    </div>
+    <script>
+        let count = 0
+     const items = [
+         ['あさひかわ' , '旭川' , '旭州' , '坦川'],
+         ['おびひろ' , '帯広' , '帯公' , '幕広'],
+        //  全146問
+     ]
+
+     function next() {
+       if (items.length === 117) {
+        Swal.fire({
+        icon: 'success',
+        title: '30問中 ' + count + '問正解！',
+        text: 'congratulations!',
+        })
+        .then(function(val){
+            alert("トップページに戻ります")
+            location = '../start.html'
+      });
+       }
+
+       const target = items.splice(Math.floor(Math.random() * items.length), 1)[0]
+
+       const q = target[0]
+       const a = target[1]
+       const opts = target.slice(1)
+
+       opts.sort((a, b) => Math.random() < 0.5 ? 1 : -1)
+       opts.sort((a, b) => Math.random() < 0.5 ? 1 : -1)
+       opts.sort((a, b) => Math.random() < 0.5 ? 1 : -1)
+       opts.sort((a, b) => Math.random() < 0.5 ? 1 : -1)
+       opts.sort((a, b) => Math.random() < 0.5 ? 1 : -1)
+
+       question.textContent = q
+       options.innerHTML = ''
+
+       opts.forEach(x => {
+         const button = document.createElement('div')
+         button.className = 'button'
+         button.textContent = x
+         button.addEventListener('click', () => {
+           if (x === a) {
+             count++
+           } else {
+            //  kaisetu.textContent = '不正解！\n正解は『' + a + '』です！'
+             alert('不正解！\n正解は『' + a + '』です！')
+           }
+           next()
+         })
+         options.appendChild(button)
+       })
+     }
+     next()
+    </script>
+  </body>
+</html>
